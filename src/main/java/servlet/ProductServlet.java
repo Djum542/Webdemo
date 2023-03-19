@@ -71,7 +71,7 @@ public class ProductServlet extends HttpServlet {
 				permission = 1;
 			}
 		}
-
+		// chuyển đổi đối tượng java thanh chuỗi json và ngược lại
 		if (request.getPathInfo() != null
 				&& (request.getPathInfo().equals("/show") || request.getPathInfo().equals("/hide"))) {
 			if (request.getParameter("id") == null) {
@@ -113,12 +113,13 @@ public class ProductServlet extends HttpServlet {
 				return;
 			}
 		}
-
+		// Lấy thông tin đường dẫn
 		if (request.getPathInfo() != null && request.getPathInfo().equals("/all")) {
 			int page = 1;
 			String category = "";
 			String brand = "";
 			String gender = "";
+			// Lấy thông tin từ url
 			if (request.getParameter("page") != null) {
 				try {
 					page = Integer.parseInt(request.getParameter("page"));
@@ -208,15 +209,15 @@ public class ProductServlet extends HttpServlet {
 			out.write(gson.toJson(new JsonResponse(false, "API chỉ hỗ trợ multipart/form-data.")));
 			return;
 		}
-
+		// cấu hình và tao đối tượng để ắp loát lên server.
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// factory.setSizeThreshold(MEMORY_THRESHOLD);
 		factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-
+		// Tạo ra biến upload với kiểu ServletFileUpload để phân tích nội dung được gửi từ form và xử lý upload file.
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		// upload.setFileSizeMax(MAX_FILE_SIZE);
 		// upload.setSizeMax(MAX_REQUEST_SIZE);
-
+		// Json để tạo, truy cập chỉnh sửa đối tượng json, dùng để truyền tải dữ liệu trong web. 
 		// Parse to json object
 		JSONObject json = new JSONObject();
 		JSONObject fileJson = new JSONObject();
@@ -322,7 +323,7 @@ public class ProductServlet extends HttpServlet {
 		for (int i = 0; i < product_detail_json.length(); i++) {
 			product_detail[i] = new ProductDetail(product_detail_json.getJSONObject(i).getInt("product_size"),
 					product_detail_json.getJSONObject(i).getInt("product_quantity"));
-		}
+		}	
 
 		// Hoàn thành validate toàn bộ dữ liệu -> add sản phẩm
 		Product product = new Product(json.getString("product_name"), new Brand(json.getInt("brand_id")),

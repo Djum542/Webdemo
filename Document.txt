@@ -1,0 +1,78 @@
+ProductServlet
+Trong phương thức doget() điều đầu tien ta cần làm là
+Cập nhật:
+-Sử dụng lớp Usesion tạo ra đối tượng đặt tên là userssion gán cho nó resquest.getSession().getAtribute('user') để lấy phiên làm việc của request và lấy ra giá trị là user bằng phương thức getAtribute.
+-Kiểm tra điều kiện ifelse để xem id lấy ra từ rquest có rỗng hay không nếu rỗng thì thực hiện dòng lệnh sau:
+response.getWriter().write(gson.toJson(new JsonResponse(statue: false, message: "Không tìm thấy sản phẩm')));
+-Kiểm tra xem uer có phải là user admin hay không để sử dụng một số chức năng dành cho admin, nếu không phải là tài khoản admin thì khi nhấn vào chức năng đó sẽ trả về một response với Jsonresponse có giá trị là "Bạn không sử dụng đươc chức năng này".
+-Ta thực hiện lệnh trycatch để bắt nỗi nếu xảy ra khi thực hiện khối lệnh trong try
+-Trong khối try ta tạo ra một biến product_id với kiểu dữ liệu là int và truyền vào cho nó một id được lấy từ request được ép về kiểu int
+-Tạo ra một biến product với kiểu là Product gán cho nó một phương thức từ lớp productDao để lấy dữ liệu nên theo "product_id".
+-Kiểm tra xem biến product đó sau khi thực hiện phương thức getProduct của lớp ProductDao để lấy dữ liệu từ database có gia trị nào hay không, nếu không thì sẽ trả về httpResponse với JsonResponse là" Không tìm thấy sản phẩm".
+-Tạo ra biến status có kiểu là int để lưu giữ lại giá trị.
+-Kiểm tra điều kiện để cập nhật sản phẩm bằng cách lấy phương thức updateProduct của lớp ProductDAO với đầu vào là id của product và trang thái = 0 được kiểm tra ở trên, nếu thỏa điều kiện, thì JsonResponse "Không tìm thấy sản phẩm"
+-Không thực hiện kiểm tra và trả JsonResponse "Cập nhật thành công".
+-Kiểm tra xem thông tin đương dẫn từ request có rỗng hay không
+tao ra cac biến rỗng
+lấy thông tin từ url để kiểm tra xem có rỗng hay không
+-Thực hiện ép kiểu cho giá trị vừa lấy xuống từ url.
+-Tạo ra một list có kiểu là Product để chứa các giá trị lấy từ database lên.
+-Tạo ra vòng lặp for
+-Set giá giá trị cho các thuộc tính.
+-Trả về cho một response với JsonRésponse có status:true, list.
+-Lây id từ url để kiểm tra xem có null hay không.
+- tao ra một biến product có kiểu là Product và truyền id vừa lấy được cho getProduct của lơp ProductDAO.
+-Kiểm tra xem product có giá trị bên trong không, nếu không có thì trả về một response có kiểu JsonResponse "Không tìm thấy sản phẩm".
+Thêm sản phẩm:
+-Tạo ra biến out có kiểu là Printwriter để chứa giá trị trả về trong response.
+-Kiểm tra quyền hạn của tài khoản.
+-Lấy contentType từ resquest xuống kiểm tra xem có hay không và có pahir kiểu multipart/form-data hay không nếu không phải thì đưa ra một JsonResponse "API chỉ hỗ trợ multipart/form-data"
+-Dùng phương thức isMultipartContent của servletFileUload để kiểm tra request xem có đúng định dạng multipart/form-data hay không.
+- Tạo ra đối tượng factory với kiểu DiskFileItemFactory để chứa dữ liệu cần tải lên server.
+-Ta đặt cho nó một kho lưu trữ là (new File(system.getproperty("")));
+-Tạo ra biến upload với kiểu ServletFileUpload để phân tích nội dung được gửi từ form và xử lý upload file.
+-Tạo ra danh sách có kiểu là FileItem để chứa các giá trị cần tải nên server.
+-Kiểm tra xem danh sách vừa tao ra có tróng hay không và kích cỡ có lớn hơn 0 không.
+-Sử dụng item có kiểu FileItem để lấy tên file kết hợp với đuôi có dấu chấm để làm chuẩn mực chung cho file tải nên.
+-Tạo ra một biến spext= "" định dạng đuôi để quy định chung cho định dang đuôi file tải nên.
+-Với các biến có kiểu JsonObject thì ta sử dụng phương thức put truyền vào đối số mà minh cần.
+-Kiểm tra từng thuộc tinh đã được điền đầy đủ hay chưa nếu chưa thì sẽ hiển thị dòng thông báo yêu cầu nhập cho từng thuộc tính cần điền.
+- Tạo ra biến product có kiểu Product truyền vào tên sản phẩm, ma brand, ma category, ma gender, lấy price, price_original, discount, desc, images, code.
+- Thực hiện phương thức addProduct từ lớp productDAO để thêm sản phẩm vào database.
+Xóa sản phẩm:
+-Kiểm tra xem đã đăng nhập hay chưa và có quyền admin không.
+-Kiểm tra xem sản phẩm cần xóa có trong hóa đơn không, nếu có thì thông báo không thể xóa.
+-Gọi phương thức deleteProduct của productDAO và truyền vào cho nó id sản phẩm sẽ xóa.
+-Kiểm tra các trường hợp có thể xảy ra.
+-Xoa file trên server.
+Orderservlet
+-Trong phương thức doget của lớp ta sẽ xử ý như sau.
+-Tạo ra biến out có kiểu là Printwwriter gán cho nó một phương thức getwwriter của response để lấy xuống các thông tin sản phẩm từ httpresponse dược trả về.
+-Kiểm tra xem request có rỗng hay không, nếu resquest rỗng thì đưa ra một Jsonresponse "Không tìm thấy mã sản phẩm"
+-Tạo ra biến order_id có kiểu là String và để chứa id được lấy xuống từ resquest.
+-Tạo ra danh sách có kiểu là OrderDetail để chứa thông tin lấy lên từ database thông qua phương thức getAllOrderDetails của lớp OrderDAO với key là id của hóa đơn.
+-Đưa dữ liệu lên trang web theo kiểu json.
+Trong phương thức dopost ta lại sử lý như sau:
+-Ta tạo ra biến out có kiểu là PrintWriter để chứa dữ liệu lấy xuống từ response.
+-Tạo ra biến reader cos kiểu là BufferedReader để đọc dữ liệu từ request thông qua phương thức getreader();
+-Tạ ra biến sb với kiểu StringBuilder mục đích là để thêm dữ liệu vào cuối chuỗi hiệu quả hơn.
+-Kiểm tra đăng nhập tài khoản.
+-Tạo ra biến user có kiểu là User và truyền vào cho nó các giá trị của thuộc tính có trong user thông qua phương thức getUserByKey của userDAO.
+-Kiểm tra từng phần tử xem đã có giá trị hay chưa nếu chưa thì đưa ra thông báo điền vào.
+-Tạo danh sách kiểu json để chứa giá trị của order_detail.
+-Tạo ra danh sách mới có tên details với kieeurb OrderDetail.
+-Tạo ra biến total với kiểu int để chứa giá trị tổng.
+-Tạo ra biến product để chưa thông tin của sản phẩm khi lấy lên thông qua phương thức getProduct của lớp ProductDAO.
+-Tính giá tiền của sản phẩm và thêm vào danh sách sau đó cộng tất cả giá cả sản phẩm lại.
+Thêm sản phẩm.
+-Tao ra biến order với kiểu là Order và  nhận các tham số truyền vào như( User_id, user_name, user_address, user_phone, total, note).
+-Thực hiện phương thức thêm của lớp OrderDAO và kiểm tra xem có lỗi hay không.
+Phương thức doput
+-Lấy id để kiểm tra xem resquest có chứa thông tin sản phẩm hay không.
+-Tạo ra biến order_id để chứa id lấy từ resquest.
+-Tạo ra biến order có kiểu là Order để chứa thông tin lấy lên theo id truyền vào.
+-Đi kiểm tra url có phải là cái mà mình cần không.
+-Lấy trạng thái đơn hàng ra để kiểm tra xem có xóa được hay không.
+- kiểm tra xem có gọi phương thức deleteOrder của lớp OrderDAO để dùng hay không.
+Cập nhật đơn hàng
+- Lấy đường dẫn để so sánh với url mà mình cần, kiểm tra trang thái đơn hàng, kiểm tra xem lệnh updateOrder có được gọi hay không.

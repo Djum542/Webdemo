@@ -48,6 +48,7 @@ public class OrderServlet extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		// in ra thong diep hoac html dua ra trang web
 		PrintWriter out = response.getWriter();
 
 		if (request.getParameter("id") == null) {
@@ -77,8 +78,9 @@ public class OrderServlet extends HttpServlet {
 			out.write(gson.toJson(json));
 			return;
 		}
-
+		// Đọc dữ liệu từ đường dẫn
 		BufferedReader reader = request.getReader();
+		// Thêm giá trị vào cuối chuỗi
 		StringBuilder sb = new StringBuilder();
 		String line = reader.readLine();
 		while (line != null) {

@@ -93,6 +93,7 @@
 		<url-pattern>/Login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<!-- Đăng ký -->
 		<servlet-name>LogoutServlet</servlet-name>
 		<url-pattern>/Logout</url-pattern>
 	</servlet-mapping>
